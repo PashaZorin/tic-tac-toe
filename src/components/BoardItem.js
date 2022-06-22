@@ -1,22 +1,10 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { chooseItem, clearGame } from "../store/gameSlice";
-import { calculateWinner } from "../store/gameSlice";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { chooseItem } from "../store/gameSlice";
+import { memo } from "react";
+
 const BoardItem = ({ item, id }) => {
   const dispatch = useDispatch();
-  const itemValue = useSelector((state) => state.todos.xIsNext);
-  const gameOver = useSelector((state) => state.todos.gameOver);
-  useEffect(() => {
-    dispatch(calculateWinner());
-  }, [itemValue]);
-  //useEffect(() => {
-  //  if (gameOver) {
-  //    setTimeout(() => {
-  //      dispatch(clearGame());
-  //    }, 1000);
-  //  }
-  //}, [gameOver]);
-
   return (
     <div
       className="board__item"
@@ -29,4 +17,4 @@ const BoardItem = ({ item, id }) => {
   );
 };
 
-export default BoardItem;
+export default memo(BoardItem);

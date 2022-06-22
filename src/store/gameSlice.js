@@ -18,10 +18,12 @@ const itemSlice = createSlice({
       [0, 4, 8],
       [2, 4, 6],
     ],
-    gameOver: false,
+    alertIsOpen: false,
+    alertMessege: "",
   },
   reducers: {
     clearGame(state, action) {
+      state.xIsNext = true;
       state.items = Array(9).fill(null);
     },
     calculateWinner(state, action) {
@@ -32,29 +34,45 @@ const itemSlice = createSlice({
           state.items[a] === state.items[b] &&
           state.items[a] === state.items[c]
         ) {
-          state.items = Array(9).fill(null);
-          !state.xIsNext
-            ? (state.player = state.player + 1)
-            : (state.player2 = state.player2 + 1);
-          state.xIsNext = !state.xIsNext;
+          if (!state.xIsNext) {
+            state.winner = state.items[a];
+            state.alertIsOpen = true;
+            state.alertMessege = "Победа игрок №1";
+          } else {
+            state.winner = state.items[a];
+            state.alertIsOpen = true;
+            state.alertMessege = "Победа игрок №2";
+          }
         }
       }
+      if (!state.items.includes(null)) {
+        state.alertMessege = "НИЧЕЯ";
+        state.alertIsOpen = true;
+        state.winner = "draw";
+      }
     },
-    //clearGame(state, action) {
-    //  state.items = Array(9).fill(null);
-    //  state.xIsNext = !state.xIsNext;
-    //},
+    clooseModal(state) {
+      state.alertIsOpen = false;
+      state.winner = "";
+    },
+    scoreCount(state, action) {
+      if (state.winner === "X") state.player = state.player + 1;
+      if (state.winner === "O") state.player2 = state.player2 + 1;
+    },
     chooseItem(state, action) {
       if (state.winner || state.items[action.payload]) return;
-
       state.xIsNext
         ? (state.items[action.payload] = "X")
         : (state.items[action.payload] = "O");
-
       state.xIsNext = !state.xIsNext;
     },
   },
 });
-export const { setWinner, chooseItem, clearGame, calculateWinner } =
-  itemSlice.actions;
+export const {
+  chooseItem,
+  clearGame,
+  calculateWinner,
+  clooseModal,
+  scoreCount,
+} = itemSlice.actions;
 export default itemSlice.reducer;
