@@ -1,0 +1,72 @@
+.wrapper {
+  background-color: #545f7d;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+.infoGame {
+  font-size: 30px;
+  color: #fff;
+}
+.board {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #44425e;
+  border-radius: 4px;
+  position: relative;
+  :nth-child(2) {
+    &:after,
+    &:before {
+      content: "";
+      position: absolute;
+      width: 6px;
+      height: 320px;
+      background-color: #a855c1;
+      border-radius: 4px;
+    }
+    &:after {
+      top: -10px;
+      left: 97px;
+    }
+    &:before {
+      top: -10px;
+      left: 197px;
+    }
+  }
+  :nth-child(5) {
+    &:after,
+    &:before {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 6px;
+      background-color: #a855c1;
+      border-radius: 4px;
+    }
+    &:after {
+      top: 97px;
+      left: -10px;
+    }
+    &:before {
+      top: 197px;
+      left: -10;
+    }
+  }
+
+  &__item {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 19px;
+    color: #fff;
+    font-size: 118px;
+    cursor: pointer;
+    user-select: none;
+  }
+}
