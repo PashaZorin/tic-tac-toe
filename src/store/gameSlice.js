@@ -52,11 +52,11 @@ const itemSlice = createSlice({
           if (!state.xIsNext) {
             state.winner = state.items[a];
             state.alertIsOpen = true;
-            state.alertMessege = "Победа игрок №1";
+            state.alertMessege = "Победил игрок " + state.userName;
           } else {
             state.winner = state.items[a];
             state.alertIsOpen = true;
-            state.alertMessege = "Победа игрок №2";
+            state.alertMessege = "Победа игрок Player2";
           }
         }
       }
