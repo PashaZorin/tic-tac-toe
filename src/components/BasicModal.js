@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useSelector, useDispatch } from "react-redux";
-import { clooseModal, clearGame } from "../store/gameSlice";
+import { clooseModalAlert, clearGame } from "../store/gameSlice";
 
 const style = {
   position: "absolute",
@@ -26,7 +26,7 @@ export default function BasicModal() {
     if (modalIsOpen) {
       setTimeout(() => {
         dispatch(clearGame());
-        dispatch(clooseModal());
+        dispatch(clooseModalAlert());
       }, 500);
     }
   }, [dispatch, modalIsOpen]);

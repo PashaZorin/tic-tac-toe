@@ -9,13 +9,16 @@ const InfoGame = () => {
     dispatch(scoreCount());
   }, [winner]);
 
+  const userName = useSelector((state) => state.todos.userName);
   const countPlayer = useSelector((state) => state.todos.player);
   const countPlayer2 = useSelector((state) => state.todos.player2);
 
   return (
     <div className="info-game">
       <p>Score</p>
-      <p>Player : {countPlayer} </p>
+      <p>
+        {userName} : {countPlayer}
+      </p>
       <p>Player2 : {countPlayer2} </p>
     </div>
   );

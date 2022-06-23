@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const itemSlice = createSlice({
   name: "items",
   initialState: {
+    userName: "",
+    signUpModal: true,
     items: Array(9).fill(null),
     winner: "",
     xIsNext: true,
@@ -22,6 +24,15 @@ const itemSlice = createSlice({
     alertMessege: "",
   },
   reducers: {
+    isComputerTurn(state) {
+      let emptyIndexes = state.items
+        .map((square, index) => (square === null ? square : null))
+        .filter((val) => val !== null);
+
+      let randomIndex = Math.floor(Math.random() * emptyIndexes.length);
+      state.items[randomIndex] = "O";
+      state.xIsNext = true;
+    },
     clearGame(state, action) {
       state.xIsNext = true;
       state.items = Array(9).fill(null);
@@ -51,19 +62,22 @@ const itemSlice = createSlice({
         state.winner = "draw";
       }
     },
-    clooseModal(state) {
+    clooseModalAlert(state) {
       state.alertIsOpen = false;
       state.winner = "";
+    },
+    clooseModalSignUp(state, action) {
+      state.signUpModal = false;
+      state.userName = action.payload;
     },
     scoreCount(state, action) {
       if (state.winner === "X") state.player = state.player + 1;
       if (state.winner === "O") state.player2 = state.player2 + 1;
     },
     chooseItem(state, action) {
-      if (state.winner || state.items[action.payload]) return;
-      state.xIsNext
-        ? (state.items[action.payload] = "X")
-        : (state.items[action.payload] = "O");
+      if (state.items[action.payload]) return;
+
+      state.items[action.payload] = "X";
       state.xIsNext = !state.xIsNext;
     },
   },
@@ -72,7 +86,9 @@ export const {
   chooseItem,
   clearGame,
   calculateWinner,
-  clooseModal,
+  clooseModalAlert,
   scoreCount,
+  isComputerTurn,
+  clooseModalSignUp,
 } = itemSlice.actions;
 export default itemSlice.reducer;
