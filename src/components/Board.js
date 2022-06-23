@@ -7,14 +7,19 @@ import {
   scoreCount,
 } from "../store/gameSlice";
 
+
 const Board = () => {
   const boardItems = useSelector((state) => state.todos.items);
   const xIsNext = useSelector((state) => state.todos.xIsNext);
+  const oneUser = useSelector((state) => state.todos.oneUser);
+  console.log(oneUser);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!xIsNext) {
-      dispatch(isComputerTurn());
-      dispatch(scoreCount());
+    if (!oneUser) {
+      if (!xIsNext) {
+        dispatch(isComputerTurn());
+        dispatch(scoreCount());
+      }
     }
     dispatch(calculateWinner(""));
   });

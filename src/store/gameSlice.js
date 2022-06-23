@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const itemSlice = createSlice({
   name: "items",
   initialState: {
+    oneUser: true,
     userName: "",
     signUpModal: true,
     items: Array(9).fill(null),
@@ -24,6 +25,9 @@ const itemSlice = createSlice({
     alertMessege: "",
   },
   reducers: {
+    chengeUser(state) {
+      state.oneUser = !state.oneUser;
+    },
     isComputerTurn(state) {
       let emptyIndexes = state.items
         .map((square, index) => (square === null ? square : null))
@@ -76,8 +80,10 @@ const itemSlice = createSlice({
     },
     chooseItem(state, action) {
       if (state.items[action.payload]) return;
+      state.xIsNext
+        ? (state.items[action.payload] = "X")
+        : (state.items[action.payload] = "O");
 
-      state.items[action.payload] = "X";
       state.xIsNext = !state.xIsNext;
     },
   },
@@ -90,5 +96,6 @@ export const {
   scoreCount,
   isComputerTurn,
   clooseModalSignUp,
+  chengeUser,
 } = itemSlice.actions;
 export default itemSlice.reducer;

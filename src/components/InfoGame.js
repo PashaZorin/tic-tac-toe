@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { scoreCount } from "../store/gameSlice";
+import BasicButtons from "./BasicButtons";
 
 const InfoGame = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const InfoGame = () => {
         {userName} : {countPlayer}
       </p>
       <p>Player2 : {countPlayer2} </p>
+      <BasicButtons />
     </div>
   );
 };

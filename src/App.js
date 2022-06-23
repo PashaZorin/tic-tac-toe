@@ -1,6 +1,7 @@
 import React from "react";
 import BasicModal from "./components/BasicModal";
 import Board from "./components/Board";
+
 import InfoGame from "./components/InfoGame";
 import SingUpModal from "./components/SingUpModal";
 import "./style/index.scss";
