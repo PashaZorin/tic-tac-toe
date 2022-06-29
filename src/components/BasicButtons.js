@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function BasicButtons() {
   const oneUser = useSelector((state) => state.todos.oneUser);
-  console.log(oneUser);
   const dispatch = useDispatch();
   return (
     <Button variant="outlined" onClick={() => dispatch(chengeUser())}>

@@ -29,13 +29,26 @@ const itemSlice = createSlice({
       state.oneUser = !state.oneUser;
     },
     isComputerTurn(state) {
-      let emptyIndexes = state.items
-        .map((square, index) => (square === null ? square : null))
-        .filter((val) => val !== null);
-
-      let randomIndex = Math.floor(Math.random() * emptyIndexes.length);
-      state.items[randomIndex] = "O";
-      state.xIsNext = true;
+      console.log("turn 000000");
+      if (!state.xIsNext) {
+        (function computerTurn() {
+          let emptyIndexes = state.items
+            .map((square, index) => (square === null ? index : null))
+            .filter((val) => val !== null);
+          console.log(emptyIndexes, "emptyIndexes");
+          let randomIndex = Math.ceil(Math.random() * emptyIndexes.length);
+          if (state.items[randomIndex] === null) {
+            console.log(randomIndex, "randomIndex");
+            state.items[randomIndex] = "O";
+            state.xIsNext = true;
+          } else {
+            if (emptyIndexes.length > 1) {
+              computerTurn();
+              console.log(emptyIndexes.length > 1, "length");
+            }
+          }
+        })();
+      }
     },
     clearGame(state, action) {
       state.xIsNext = true;
@@ -49,18 +62,21 @@ const itemSlice = createSlice({
           state.items[a] === state.items[b] &&
           state.items[a] === state.items[c]
         ) {
-          if (!state.xIsNext) {
+          if (state.items[a] === "X") {
             state.winner = state.items[a];
             state.alertIsOpen = true;
             state.alertMessege = "Победил игрок " + state.userName;
-          } else {
             state.winner = state.items[a];
+          } else {
+            console.log(state.items[a], "state.items[a]");
             state.alertIsOpen = true;
             state.alertMessege = "Победа игрок Player2";
+            state.winner = state.items[a];
           }
         }
       }
-      if (!state.items.includes(null)) {
+      if (!state.items.includes(null) ?? !state.winner) {
+        console.log("НИЧЕЯ");
         state.alertMessege = "НИЧЕЯ";
         state.alertIsOpen = true;
         state.winner = "draw";
@@ -72,7 +88,7 @@ const itemSlice = createSlice({
     },
     clooseModalSignUp(state, action) {
       state.signUpModal = false;
-      state.userName = action.payload;
+      state.userName = action.payload || "Player";
     },
     scoreCount(state, action) {
       if (state.winner === "X") state.player = state.player + 1;
@@ -80,6 +96,7 @@ const itemSlice = createSlice({
     },
     chooseItem(state, action) {
       if (state.items[action.payload]) return;
+      console.log("work");
       state.xIsNext
         ? (state.items[action.payload] = "X")
         : (state.items[action.payload] = "O");
