@@ -28,28 +28,24 @@ const itemSlice = createSlice({
     chengeUser(state) {
       state.oneUser = !state.oneUser;
     },
+
     isComputerTurn(state) {
-      console.log("turn 000000");
-      if (!state.xIsNext) {
-        (function computerTurn() {
-          let emptyIndexes = state.items
-            .map((square, index) => (square === null ? index : null))
-            .filter((val) => val !== null);
-          console.log(emptyIndexes, "emptyIndexes");
-          let randomIndex = Math.ceil(Math.random() * emptyIndexes.length);
-          if (state.items[randomIndex] === null) {
-            console.log(randomIndex, "randomIndex");
-            state.items[randomIndex] = "O";
-            state.xIsNext = true;
-          } else {
-            if (emptyIndexes.length > 1) {
-              computerTurn();
-              console.log(emptyIndexes.length > 1, "length");
-            }
-          }
-        })();
-      }
+      (function add() {
+        let emptyIndexes = state.items
+          .map((square, index) => (square === null ? index : null))
+          .filter((val) => val !== null);
+        let randomIndex =
+          emptyIndexes[Math.ceil(Math.random() * emptyIndexes.length)];
+
+        if (state.items[randomIndex] === null) {
+          state.items[randomIndex] = "O";
+          state.xIsNext = true;
+        } else if (emptyIndexes.length >= 2) {
+          add();
+        }
+      })();
     },
+
     clearGame(state, action) {
       state.xIsNext = true;
       state.items = Array(9).fill(null);
@@ -67,19 +63,20 @@ const itemSlice = createSlice({
             state.alertIsOpen = true;
             state.alertMessege = "Победил игрок " + state.userName;
             state.winner = state.items[a];
+            return;
           } else {
             console.log(state.items[a], "state.items[a]");
             state.alertIsOpen = true;
             state.alertMessege = "Победа игрок Player2";
             state.winner = state.items[a];
+            return;
           }
+        } else if (!state.items.includes(null) ?? !state.winner) {
+          state.alertMessege = "НИЧЕЯ";
+          state.alertIsOpen = true;
+          state.winner = "draw";
+          return;
         }
-      }
-      if (!state.items.includes(null) ?? !state.winner) {
-        console.log("НИЧЕЯ");
-        state.alertMessege = "НИЧЕЯ";
-        state.alertIsOpen = true;
-        state.winner = "draw";
       }
     },
     clooseModalAlert(state) {
@@ -96,7 +93,6 @@ const itemSlice = createSlice({
     },
     chooseItem(state, action) {
       if (state.items[action.payload]) return;
-      console.log("work");
       state.xIsNext
         ? (state.items[action.payload] = "X")
         : (state.items[action.payload] = "O");

@@ -45,7 +45,6 @@ const SingUpModal = () => {
           >
             <TextField
               id="outlined-basic"
-              //  as={TextField}
               label="Имя"
               variant="outlined"
               onChange={(e) => setUserName(e.target.value)}
