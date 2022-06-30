@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const itemSlice = createSlice({
   name: "items",
   initialState: {
-    oneUser: true,
+    oneUser: false,
     userName: "",
     signUpModal: true,
     items: Array(9).fill(null),
